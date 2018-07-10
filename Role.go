@@ -1,4 +1,4 @@
-package rolextract
+package perm
 
 //Role holds both allow and deny policies
 type Role struct {
