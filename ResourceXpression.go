@@ -1,5 +1,6 @@
 package perm
 
+//ResourceXpression holds the available permissions for a set of actions
 type ResourceXpression struct {
 	All        bool                `json:"all"`
 	Self       bool                `json:"self"`

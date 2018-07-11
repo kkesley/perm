@@ -1,0 +1,121 @@
+{
+	"AllowPolicy": {
+		"Groups": {
+			"1": {
+				"itea": {
+					"platform": {
+						"client": [
+							{
+								"Actions": [
+									"*"
+								],
+								"Resources": [
+									{
+										"Target":
+											"1",
+										"Conditions": {},
+										"Children": {}
+									}
+								]
+							}
+						],
+						"user": [
+							{
+								"Actions": [
+									"read",
+									"update",
+									"create"
+								],
+								"Resources": [
+									{
+										"Target":
+											"1",
+										"Conditions": {},
+										"Children": {}
+									},
+									{
+										"Target":
+											"2",
+										"Conditions": {},
+										"Children": {}
+									}
+								]
+							},
+							{
+								"Actions": [
+									"*"
+								],
+								"Resources": [
+									{
+										"Target":
+											"*",
+										"Conditions": {
+											"class":
+												"worker",
+											"division":
+												"kitchen"
+										},
+										"Children": {}
+									}
+								]
+							}
+						]
+					},
+					"property": {
+						"hotel": [
+							{
+								"Actions": [
+									"*"
+								],
+								"Resources": [
+									{
+										"Target":
+											"2",
+										"Conditions": {},
+										"Children": {
+											"room": {
+												"Actions": [
+													"*"
+												],
+												"Resources": [
+													{
+														"Target":
+															"3",
+														"Conditions": {},
+														"Children": {
+															"window": {
+																"Actions": [
+																	"read",
+																	"create"
+																],
+																"Resources": [
+																	{
+																		"Target":
+																			"2",
+																		"Conditions": {},
+																		"Children": {}
+																	},
+																	{
+																		"Target":
+																			"1",
+																		"Conditions": {},
+																		"Children": {}
+																	}
+																]
+															}
+														}
+													}
+												]
+											}
+										}
+									}
+								]
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	"DenyPolicy": { "Groups": {} }
+}

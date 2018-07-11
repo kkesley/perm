@@ -1,0 +1,16 @@
+{
+	"allow": {
+		"all": true,
+		"self": false,
+		"owned": false,
+		"resources": ["1", "2"],
+		"conditions": [{ "class": "worker", "division": "kitchen" }]
+	},
+	"deny": {
+		"all": false,
+		"self": false,
+		"owned": false,
+		"resources": [],
+		"conditions": []
+	}
+}
