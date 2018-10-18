@@ -11,10 +11,10 @@ import (
 //They can access the resource if the resource is themselves
 //They can access the resource if the resource is their client only if they are the root
 //They can access the resource if the resource is their peers only if they are the root
-func CheckPrivatePermission(ARN string, token jwtidentity.TokenRequest) bool {
+func CheckPrivatePermission(ARN string, token jwtidentity.TokenRequest, allowPeer bool) bool {
 	if token.ClientARN == ARN && !token.IsRoot {
 		return false
-	} else if token.UserARN != ARN && !token.IsRoot {
+	} else if token.UserARN != ARN && !token.IsRoot && !allowPeer {
 		return false
 	} else if arn.GetPartResourceID(ARN, "itea") != strconv.FormatUint(token.ClientID, 10) {
 		return false
