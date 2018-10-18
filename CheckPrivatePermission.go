@@ -12,7 +12,7 @@ import (
 //They can access the resource if the resource is their client only if they are the root
 //They can access the resource if the resource is their peers only if they are the root
 func CheckPrivatePermission(ARN string, token jwtidentity.TokenRequest, allowPeer bool, allowMember bool) bool {
-	if token.ClientARN == ARN && !token.IsRoot && !allowEmployee {
+	if token.ClientARN == ARN && !token.IsRoot && !allowMember {
 		return false
 	} else if token.UserARN != ARN && !token.IsRoot && !allowPeer {
 		return false
