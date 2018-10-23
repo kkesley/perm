@@ -33,8 +33,7 @@ func CheckPermission(request CheckPermissionRequest) (*CheckResponse, error) {
 				},
 			}, nil
 		}
-		fmt.Println(strings.Replace(request.Role, "::", "_", -1) + "/action__role.json")
-		if roleByte, err := parser.GetS3DocumentDefault(request.Region, request.Bucket, strings.Replace(request.Role, "::", "_", -1)+"/action__role.json"); err == nil {
+		if roleByte, err := parser.GetS3DocumentDefault(request.Region, request.Bucket, strings.Replace(request.Role, "::", "_", -1)+"/final__role.json"); err == nil {
 			request.PolicyStr = aws.String(string(roleByte))
 		} else {
 			return &CheckResponse{
