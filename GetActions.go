@@ -7,9 +7,9 @@ import (
 	parser "github.com/kkesley/s3-parser"
 )
 
-//GetPermissions get permissions of a user in s3
+//GetActions get actions of a user in s3
 //Requires ROLE_OUTPUT_REGION, ROLE_OUTPUT_BUCKET
-func GetPermissions(bucket string, region string, role string) []string {
+func GetActions(bucket string, region string, role string) []string {
 	roleStr := ""
 	fmt.Println(strings.Replace(role, "::", "_", -1) + "/action__role.json")
 	if roleByte, err := parser.GetS3DocumentDefault(region, bucket, strings.Replace(role, "::", "_", -1)+"/action__role.json"); err == nil {

@@ -7,7 +7,7 @@ import (
 
 //CheckActions checks if a role is allowed for a certain action
 func CheckActions(request CheckActionsRequest) bool {
-	permissions := GetPermissions(request.Bucket, request.Region, request.Role)
+	permissions := GetActions(request.Bucket, request.Region, request.Role)
 	allowAll := false
 	denyAll := false
 	allow := false
