@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/aws/aws-sdk-go/aws"
+	parser "github.com/kkesley/s3-parser"
 )
 
 //CheckPermission returns allowed objects. If empty, it means the permission is denied
@@ -18,20 +21,36 @@ func CheckPermission(request CheckPermissionRequest) (*CheckResponse, error) {
 				Resources:  make([]string, 0),
 			},
 		}, nil
-	} else if len(request.PolicyStr) <= 0 {
-		return &CheckResponse{
-			Allow: ResourceXpression{
-				All:        false,
-				Self:       false,
-				Owned:      false,
-				Conditions: make([]map[string]string, 0),
-				Resources:  make([]string, 0),
-			},
-		}, nil
+	} else if request.PolicyStr == nil || len(*request.PolicyStr) <= 0 {
+		if len(request.Role) <= 0 {
+			return &CheckResponse{
+				Allow: ResourceXpression{
+					All:        false,
+					Self:       false,
+					Owned:      false,
+					Conditions: make([]map[string]string, 0),
+					Resources:  make([]string, 0),
+				},
+			}, nil
+		}
+		fmt.Println(strings.Replace(request.Role, "::", "_", -1) + "/action__role.json")
+		if roleByte, err := parser.GetS3DocumentDefault(request.Region, request.Bucket, strings.Replace(request.Role, "::", "_", -1)+"/action__role.json"); err == nil {
+			request.PolicyStr = aws.String(string(roleByte))
+		} else {
+			return &CheckResponse{
+				Allow: ResourceXpression{
+					All:        false,
+					Self:       false,
+					Owned:      false,
+					Conditions: make([]map[string]string, 0),
+					Resources:  make([]string, 0),
+				},
+			}, nil
+		}
 	}
 	var role Role
 	//unmarshal policy string to a role
-	if err := json.Unmarshal([]byte(request.PolicyStr), &role); err != nil {
+	if err := json.Unmarshal([]byte(*request.PolicyStr), &role); err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
