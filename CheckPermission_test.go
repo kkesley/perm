@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"testing"
+
+	"github.com/kkesley/iteacloud-jwt/jwtidentity"
 )
 
 func TestCheckPermission(test *testing.T) {
@@ -17,6 +19,9 @@ func TestCheckPermission(test *testing.T) {
 		ClientID:  "1",
 		Path:      "itea::platform::user",
 		Actions:   []string{"read"},
+		Token: jwtidentity.TokenRequest{
+			IsRoot: true,
+		},
 	}); err != nil {
 		test.Error(err)
 	} else {

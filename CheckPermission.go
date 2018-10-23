@@ -8,6 +8,17 @@ import (
 
 //CheckPermission returns allowed objects. If empty, it means the permission is denied
 func CheckPermission(request CheckRequest) (*CheckResponse, error) {
+	if request.Token.IsRoot {
+		return &CheckResponse{
+			Allow: ResourceXpression{
+				All:        true,
+				Self:       true,
+				Owned:      true,
+				Conditions: make([]map[string]string, 0),
+				Resources:  make([]string, 0),
+			},
+		}, nil
+	}
 	var role Role
 	//unmarshal policy string to a role
 	if err := json.Unmarshal([]byte(request.PolicyStr), &role); err != nil {
