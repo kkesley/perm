@@ -18,6 +18,16 @@ func CheckPermission(request CheckRequest) (*CheckResponse, error) {
 				Resources:  make([]string, 0),
 			},
 		}, nil
+	} else if len(request.PolicyStr) <= 0 {
+		return &CheckResponse{
+			Allow: ResourceXpression{
+				All:        false,
+				Self:       false,
+				Owned:      false,
+				Conditions: make([]map[string]string, 0),
+				Resources:  make([]string, 0),
+			},
+		}, nil
 	}
 	var role Role
 	//unmarshal policy string to a role

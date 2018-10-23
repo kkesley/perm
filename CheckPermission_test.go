@@ -20,7 +20,7 @@ func TestCheckPermission(test *testing.T) {
 		Path:      "itea::platform::user",
 		Actions:   []string{"read"},
 		Token: jwtidentity.TokenRequest{
-			IsRoot: true,
+			IsRoot: false,
 		},
 	}); err != nil {
 		test.Error(err)
