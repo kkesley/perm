@@ -14,7 +14,7 @@ func TestCheckPermission(test *testing.T) {
 	if err != nil {
 		test.Error(err)
 	}
-	if resBank, err := CheckPermission(CheckRequest{
+	if resBank, err := CheckPermission(CheckPermissionRequest{
 		PolicyStr: string(dat),
 		ClientID:  "1",
 		Path:      "itea::platform::user",
