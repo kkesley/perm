@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"testing"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/kkesley/iteacloud-jwt/jwtidentity"
 )
 
@@ -15,7 +16,7 @@ func TestCheckPermission(test *testing.T) {
 		test.Error(err)
 	}
 	if resBank, err := CheckPermission(CheckPermissionRequest{
-		PolicyStr: string(dat),
+		PolicyStr: aws.String(string(dat)),
 		ClientID:  "1",
 		Path:      "itea::platform::user",
 		Actions:   []string{"read"},
