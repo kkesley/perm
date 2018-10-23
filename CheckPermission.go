@@ -7,7 +7,7 @@ import (
 )
 
 //CheckPermission returns allowed objects. If empty, it means the permission is denied
-func CheckPermission(request CheckRequest) (*CheckResponse, error) {
+func CheckPermission(request CheckPermissionRequest) (*CheckResponse, error) {
 	if request.Token.IsRoot {
 		return &CheckResponse{
 			Allow: ResourceXpression{
@@ -43,7 +43,7 @@ func CheckPermission(request CheckRequest) (*CheckResponse, error) {
 }
 
 //getResource get the resource of eligible policies
-func getResource(groups map[string]map[string]map[string]map[string][]*Permission, request CheckRequest) ResourceXpression {
+func getResource(groups map[string]map[string]map[string]map[string][]*Permission, request CheckPermissionRequest) ResourceXpression {
 	sections := strings.Split(request.Path, "::")
 	resourcexpression := ResourceXpression{
 		Resources:  make([]string, 0),

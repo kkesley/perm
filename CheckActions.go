@@ -1,56 +1,57 @@
 package perm
 
 import (
-	"encoding/json"
 	"fmt"
+	"strings"
 )
 
-//CheckActions check an action
-func CheckActions(request CheckRequest) (bool, error) {
-	if request.Token.IsRoot {
-		return true, nil
-	} else if len(request.PolicyStr) <= 0 {
-		return false, nil
-	}
-	var action Action
-	//unmarshal policy string to a role
-	if err := json.Unmarshal([]byte(request.PolicyStr), &action); err != nil {
-		fmt.Println(err)
-		return false, err
-	}
-	allowed := false
+//CheckActions checks if a role is allowed for a certain action
+func CheckActions(request CheckActionsRequest) bool {
+	permissions := GetPermissions(request.Bucket, request.Region, request.Role)
 	allowAll := false
-	if permissions, ok := action.AllowedAction[request.Path]; ok {
+	denyAll := false
+	allow := false
+	deny := false
+	for _, action := range request.Actions {
 		for _, permission := range permissions {
-			for _, requestedPermission := range request.Actions {
-				if requestedPermission == permission || permission == "*" {
-					allowed = true
-					if permission == "*" {
-						allowAll = true
+			mode := "DENY"
+			if string(permission[0]) == "+" {
+				mode = "ALLOW"
+			}
+			fmt.Println(permission)
+			sections := strings.Split(string(permission[1:]), "::")
+			actionSections := strings.Split(action, "::")
+			for idx, section := range sections {
+				if len(actionSections)-1 < idx {
+					break //if required action is shorter than the permission, it mustn't be a match
+				}
+				if section != actionSections[idx] && section != "*" {
+					break //if current section is not the same as the required action and section is not *, mustn't be a match
+				}
+				if idx == len(sections)-1 {
+					if section == "*" {
+						if mode == "ALLOW" {
+							allowAll = true //if last and section is * and mode is ALLOW, it means allow all
+						} else {
+							denyAll = true //if last and section is * and mode is DENY, it means deny all
+						}
+					} else if section == actionSections[len(actionSections)-1] {
+						if mode == "ALLOW" {
+							allow = true //if last and section is * and mode is ALLOW, it means allow all
+						} else {
+							deny = true //if last and section is * and mode is DENY, it means deny all
+						}
 					}
-					break
 				}
 			}
-			if allowed {
-				break
-			}
+		}
+		if allowAll && deny {
+			continue
+		} else if denyAll && allow {
+			return true
+		} else if allow || allowAll {
+			return true
 		}
 	}
-	if !allowed {
-		return false, nil
-	}
-	if permissions, ok := action.DeniedAction[request.Path]; ok {
-		for _, permission := range permissions {
-			for _, requestedPermission := range request.Actions {
-				if requestedPermission == permission || (permission == "*" && !allowAll) {
-					allowed = false
-					break
-				}
-			}
-			if !allowed {
-				break
-			}
-		}
-	}
-	return allowed, nil
+	return false
 }

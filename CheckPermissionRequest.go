@@ -2,8 +2,8 @@ package perm
 
 import "github.com/kkesley/iteacloud-jwt/jwtidentity"
 
-//CheckRequest holds the request for checking eligible permissions
-type CheckRequest struct {
+//CheckPermissionRequest holds the request for checking eligible permissions
+type CheckPermissionRequest struct {
 	PolicyStr string   `json:"policy_str"`
 	ClientID  string   `json:"client_id"`
 	Path      string   `json:"path"`

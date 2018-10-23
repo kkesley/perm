@@ -12,16 +12,16 @@
 		"owned": false,
 		"resources": [],
 		"conditions": []
-	}
+	},
+	"__comments": [
+		"SELECT ARN FROM ATTRIBUTES GROUP BY ARN",
+		"HAVING", 
+		"(SUM(key = class AND value = worker) > 0",
+		"AND SUM(key = division AND value = kitchen) > 0)",
+		"OR (",
+			"SUM(key = color AND value = green)",
+			"AND",
+			"SUM(key=eyesight AND value = good)",
+		")"
+	]
 }
-/**
-    SELECT ARN FROM ATTRIBUTES GROUP BY ARN
-    HAVING 
-    (SUM(key = class AND value = worker) > 0
-    AND SUM(key = division AND value = kitchen) > 0)
-    OR (
-        SUM(key = color AND value = green)
-        AND
-        SUM(key=eyesight AND value = good)
-    )
-**/
