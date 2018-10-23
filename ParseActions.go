@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+//ParseActions parses actions based on policy in s3
 func ParseActions(request ParseActionsRequest) ([]string, error) {
 	if request.Token.IsRoot {
 		return []string{"+*"}, nil

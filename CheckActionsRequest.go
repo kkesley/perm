@@ -1,5 +1,6 @@
 package perm
 
+//CheckActionsRequest holds the request to check valid actions
 type CheckActionsRequest struct {
 	Bucket  string   `json:"bucket"`
 	Region  string   `json:"region"`
