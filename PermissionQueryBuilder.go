@@ -12,17 +12,34 @@ func (permission CheckResponse) PermissionQueryBuilder(db *gorm.DB, field string
 		if len(permission.Deny.Resources) > 0 {
 			query = query.Where(field+" NOT IN (?)", permission.Deny.Resources)
 		}
-		if len(conditionIDs) > 0 {
+		requireCondition := false
+		for _, condition := range permission.Allow.Conditions {
+			if len(condition) > 0 {
+				requireCondition = true
+				break
+			}
+		}
+
+		if requireCondition {
 			query = query.Where(field+" IN (?)", funk.Uniq(append(conditionIDs, permission.Allow.Resources...)))
 		}
 	} else if permission.Deny.All {
 		if len(permission.Allow.Resources) > 0 {
 			query = query.Where(field+" IN (?)", permission.Allow.Resources)
 		}
-		if len(conditionIDs) > 0 {
+
+		requireCondition := false
+		for _, condition := range permission.Deny.Conditions {
+			if len(condition) > 0 {
+				requireCondition = true
+				break
+			}
+		}
+
+		if requireCondition {
 			query = query.Where(field+" NOT IN (?)", funk.Uniq(append(conditionIDs, permission.Deny.Resources...)))
 		}
-		if len(conditionIDs) <= 0 && len(permission.Allow.Resources) <= 0 {
+		if !requireCondition && len(permission.Allow.Resources) <= 0 {
 			query = query.Where("user_id = ?", -1)
 		}
 	} else {
