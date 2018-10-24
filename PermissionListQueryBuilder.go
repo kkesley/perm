@@ -5,8 +5,8 @@ import (
 	funk "github.com/thoas/go-funk"
 )
 
-//PermissionBatchQueryBuilder build logic of permission query for batch operations (list obviously)
-func (permission CheckResponse) PermissionBatchQueryBuilder(db *gorm.DB, field string, conditionIDs []string) *gorm.DB {
+//PermissionListQueryBuilder build logic of permission query for list operations
+func (permission CheckResponse) PermissionListQueryBuilder(db *gorm.DB, field string, conditionIDs []string) *gorm.DB {
 	query := db
 	if permission.Allow.All { //if permission has allow all
 		if len(permission.Deny.Resources) > 0 {
