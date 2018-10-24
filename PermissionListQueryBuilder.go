@@ -21,7 +21,7 @@ func (permission CheckResponse) PermissionListQueryBuilder(db *gorm.DB, field st
 		}
 
 		if requireCondition {
-			query = query.Where(field+" IN (?)", funk.Uniq(append(conditionIDs, permission.Allow.Resources...))) //if there are conditions, only return object matches with conditions & allowed resources
+			query = query.Where(field+" IN (?)", funk.UniqString(append(conditionIDs, permission.Allow.Resources...))) //if there are conditions, only return object matches with conditions & allowed resources
 		}
 	} else if permission.Deny.All { //if permission has deny all
 		if len(permission.Allow.Resources) > 0 {
@@ -37,7 +37,7 @@ func (permission CheckResponse) PermissionListQueryBuilder(db *gorm.DB, field st
 		}
 
 		if requireCondition {
-			query = query.Where(field+" NOT IN (?)", funk.Uniq(append(conditionIDs, permission.Deny.Resources...))) //if there are conditions, only deny object matches with the conditions and denied resources
+			query = query.Where(field+" NOT IN (?)", funk.UniqString(append(conditionIDs, permission.Deny.Resources...))) //if there are conditions, only deny object matches with the conditions and denied resources
 		}
 		if !requireCondition && len(permission.Allow.Resources) <= 0 {
 			query = query.Where("user_id = ?", -1) //if no allowed resources and does not have any conditions, deny all of them
