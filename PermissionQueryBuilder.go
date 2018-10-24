@@ -2,8 +2,8 @@ package perm
 
 import "github.com/jinzhu/gorm"
 
-//ConditionQueryBuilder build logic of permission query
-func (permission CheckResponse) ConditionQueryBuilder(db *gorm.DB, field string, conditionIDs []string) *gorm.DB {
+//PermissionQueryBuilder build logic of permission query
+func (permission CheckResponse) PermissionQueryBuilder(db *gorm.DB, field string, conditionIDs []string) *gorm.DB {
 	query := db
 	if permission.Allow.All {
 		if len(permission.Deny.Resources) > 0 {
