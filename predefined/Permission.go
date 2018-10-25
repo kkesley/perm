@@ -15,8 +15,8 @@ type PlatformConstant struct {
 //Permission predefined permission
 var Permission = PermissionConstant{
 	Platform: PlatformConstant{
-		User:           "arn::itea::platform::user",
-		Role:           "arn::itea::platform::role",
-		PasswordPolicy: "arn::itea::platform::password-policy",
+		User:           "itea::platform::user",
+		Role:           "itea::platform::role",
+		PasswordPolicy: "itea::platform::password-policy",
 	},
 }
