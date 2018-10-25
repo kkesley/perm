@@ -1,7 +1,6 @@
 package perm
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -21,7 +20,6 @@ func CheckActions(request CheckActionsRequest) bool {
 			if string(permission[0]) == "+" {
 				mode = "ALLOW"
 			}
-			fmt.Println(permission)
 			sections := strings.Split(string(permission[1:]), "::")
 			actionSections := strings.Split(action, "::")
 			for idx, section := range sections {
