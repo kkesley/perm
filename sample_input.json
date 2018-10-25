@@ -13,7 +13,7 @@
 									{
 										"Target":
 											"1",
-										"Conditions": {},
+										"Conditions": [{}],
 										"Children": {}
 									}
 								]
@@ -30,13 +30,13 @@
 									{
 										"Target":
 											"1",
-										"Conditions": {},
+										"Conditions": [{}],
 										"Children": {}
 									},
 									{
 										"Target":
 											"2",
-										"Conditions": {},
+										"Conditions": [{}],
 										"Children": {}
 									}
 								]
@@ -71,7 +71,7 @@
 									{
 										"Target":
 											"2",
-										"Conditions": {},
+										"Conditions": [{}],
 										"Children": {
 											"room": {
 												"Actions": [
@@ -81,7 +81,7 @@
 													{
 														"Target":
 															"3",
-														"Conditions": {},
+														"Conditions": [{}],
 														"Children": {
 															"window": {
 																"Actions": [
@@ -92,13 +92,13 @@
 																	{
 																		"Target":
 																			"2",
-																		"Conditions": {},
+																		"Conditions": [{}],
 																		"Children": {}
 																	},
 																	{
 																		"Target":
 																			"1",
-																		"Conditions": {},
+																		"Conditions": [{}],
 																		"Children": {}
 																	}
 																]
