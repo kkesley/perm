@@ -13,7 +13,7 @@ import (
 //group_key (primary key)
 //group_value
 //created_at
-func (p CheckResponse) PermissionFilterIDs(db *gorm.DB, arnGroup string) *gorm.DB {
+func (p CheckResponse) PermissionFilterIDs(db *gorm.DB, arnGroup string, arnRequester string) *gorm.DB {
 	conditions := make([]map[string]string, 0)
 	if p.Allow.All {
 		conditions = p.Allow.Conditions
