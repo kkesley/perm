@@ -5,12 +5,12 @@ import (
 )
 
 //PermissionBatchQueryChecker build logic of permission checker for batch operations (batch delete / batch update)
-func (permission CheckResponse) PermissionBatchQueryChecker(targetIDs []string, conditionIDs []string) []string {
+func (permission CheckResponse) PermissionBatchQueryChecker(targetIDs []string, filterOutput FilterIDsOutput) []string {
 	idChannel := make(chan *string, len(targetIDs))
 	var wg sync.WaitGroup
 	wg.Add(len(targetIDs))
 	for _, targetID := range targetIDs {
-		go permission.PermissionSingleQueryCheckerAsync(targetID, conditionIDs, &wg, idChannel)
+		go permission.PermissionSingleQueryCheckerAsync(targetID, filterOutput, &wg, idChannel)
 	}
 	wg.Wait()
 	close(idChannel)
