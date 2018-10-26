@@ -1,4 +1,4 @@
-package perm
+package checker
 
 import (
 	"os"

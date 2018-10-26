@@ -1,4 +1,4 @@
-package perm
+package checker
 
 import (
 	"github.com/kkesley/iteacloud-jwt/jwtidentity"

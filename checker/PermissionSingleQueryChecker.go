@@ -1,4 +1,4 @@
-package perm
+package checker
 
 import (
 	funk "github.com/thoas/go-funk"

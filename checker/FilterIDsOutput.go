@@ -1,4 +1,4 @@
-package perm
+package checker
 
 //FilterIDsOutput will return ids of conditions and owned resources
 type FilterIDsOutput struct {

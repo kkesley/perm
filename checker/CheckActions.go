@@ -1,7 +1,9 @@
-package perm
+package checker
 
 import (
 	"strings"
+
+	"github.com/kkesley/perm"
 )
 
 //CheckActions checks if a role is allowed for a certain action
@@ -9,7 +11,7 @@ func CheckActions(request CheckActionsRequest) bool {
 	if request.Token.IsRoot {
 		return true
 	}
-	permissions := GetActions(request.Bucket, request.Region, request.Role)
+	permissions := perm.GetActions(request.Bucket, request.Region, request.Role)
 	allowAll := false
 	denyAll := false
 	allow := false

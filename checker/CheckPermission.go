@@ -1,4 +1,4 @@
-package perm
+package checker
 
 import (
 	"encoding/json"
@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/kkesley/perm"
 	parser "github.com/kkesley/s3-parser"
 )
 
@@ -13,7 +14,7 @@ import (
 func CheckPermission(request CheckPermissionRequest) (*CheckResponse, error) {
 	if request.Token.IsRoot {
 		return &CheckResponse{
-			Allow: ResourceXpression{
+			Allow: perm.ResourceXpression{
 				All:        true,
 				Self:       true,
 				Owned:      true,
@@ -24,7 +25,7 @@ func CheckPermission(request CheckPermissionRequest) (*CheckResponse, error) {
 	} else if request.PolicyStr == nil || len(*request.PolicyStr) <= 0 {
 		if len(request.Role) <= 0 {
 			return &CheckResponse{
-				Allow: ResourceXpression{
+				Allow: perm.ResourceXpression{
 					All:        false,
 					Self:       false,
 					Owned:      false,
@@ -37,7 +38,7 @@ func CheckPermission(request CheckPermissionRequest) (*CheckResponse, error) {
 			request.PolicyStr = aws.String(string(roleByte))
 		} else {
 			return &CheckResponse{
-				Allow: ResourceXpression{
+				Allow: perm.ResourceXpression{
 					All:        false,
 					Self:       false,
 					Owned:      false,
@@ -47,7 +48,7 @@ func CheckPermission(request CheckPermissionRequest) (*CheckResponse, error) {
 			}, nil
 		}
 	}
-	var role Role
+	var role perm.Role
 	//unmarshal policy string to a role
 	if err := json.Unmarshal([]byte(*request.PolicyStr), &role); err != nil {
 		fmt.Println(err)
@@ -61,9 +62,9 @@ func CheckPermission(request CheckPermissionRequest) (*CheckResponse, error) {
 }
 
 //getResource get the resource of eligible policies
-func getResource(groups map[string]map[string]map[string]map[string][]*Permission, request CheckPermissionRequest) ResourceXpression {
+func getResource(groups map[string]map[string]map[string]map[string][]*perm.Permission, request CheckPermissionRequest) perm.ResourceXpression {
 	sections := strings.Split(request.Path, "::")
-	resourcexpression := ResourceXpression{
+	resourcexpression := perm.ResourceXpression{
 		Resources:  make([]string, 0),
 		Conditions: make([]map[string]string, 0),
 	}
@@ -104,7 +105,7 @@ func getResource(groups map[string]map[string]map[string]map[string][]*Permissio
 }
 
 //mapThroughChildren traverse children to get permission
-func mapThroughChildren(permission *Permission, remainingSections []string, actions []string, resourcexpression *ResourceXpression) {
+func mapThroughChildren(permission *perm.Permission, remainingSections []string, actions []string, resourcexpression *perm.ResourceXpression) {
 	if len(remainingSections) <= 0 {
 		//if remaining sections is empty, it should break
 		return
@@ -126,7 +127,7 @@ func mapThroughChildren(permission *Permission, remainingSections []string, acti
 }
 
 //fillResourceExpression fills the expression with eligible resources
-func fillResourceExpression(permission *Permission, actions []string, resourcexpression *ResourceXpression) {
+func fillResourceExpression(permission *perm.Permission, actions []string, resourcexpression *perm.ResourceXpression) {
 	//check if the actions are eligible to get these resources
 	if checkEligibility(permission.Actions, actions) {
 		//loop through the resources
