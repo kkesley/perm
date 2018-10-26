@@ -31,16 +31,14 @@ type RoleAction struct {
 
 //PasswordPolicyAction holds action of role
 type PasswordPolicyAction struct {
-	Read   string `json:"read"`
-	Write  string `json:"write"`
-	Toggle string `json:"toggle"`
+	Read  string `json:"read"`
+	Write string `json:"write"`
 }
 
 //BasicAction holds basic action
 type BasicAction struct {
 	Read   string `json:"read"`
 	Write  string `json:"write"`
-	Toggle string `json:"toggle"`
 	Delete string `json:"delete"`
 	Create string `json:"create"`
 }
@@ -52,7 +50,6 @@ var Action = ActionConstant{
 		Write:  "write",
 		Delete: "delete",
 		Create: "create",
-		Toggle: "toggle",
 	},
 	Platform: PlatformAction{
 		User: UserAction{
@@ -68,9 +65,8 @@ var Action = ActionConstant{
 			Create: Permission.Platform.Role + "::" + "create",
 		},
 		PasswordPolicy: PasswordPolicyAction{
-			Read:   Permission.Platform.PasswordPolicy + "::" + "read",
-			Write:  Permission.Platform.PasswordPolicy + "::" + "write",
-			Toggle: Permission.Platform.PasswordPolicy + "::" + "toggle",
+			Read:  Permission.Platform.PasswordPolicy + "::" + "read",
+			Write: Permission.Platform.PasswordPolicy + "::" + "write",
 		},
 	},
 }
