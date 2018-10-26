@@ -56,7 +56,7 @@ func (permission CheckResponse) PermissionListQueryBuilder(db *gorm.DB, field st
 		if len(permission.Allow.Resources) > 0 || len(allowOwned) > 0 {
 			query = query.Where(field+" IN (?)", funk.UniqString(append(allowOwned, permission.Allow.Resources...))) //only allow allowed resources
 		}
-		if len(permission.Deny.Resources) <= 0 && len(permission.Allow.Resources) <= 0 {
+		if len(permission.Deny.Resources) <= 0 && len(permission.Allow.Resources) <= 0 && len(denyOwned) <= 0 && len(allowOwned) <= 0 {
 			query = query.Where(field+" = ?", -1) //deny all if permission is empty
 		}
 	}
