@@ -14,7 +14,7 @@ import (
 func CheckPrivatePermission(ARN string, token jwtidentity.TokenRequest, allowPeer bool, allowMember bool) bool {
 	if token.ClientARN == ARN && !token.IsRoot && !allowMember {
 		return false
-	} else if token.UserARN != ARN && !token.IsRoot && !allowPeer {
+	} else if token.UserARN != ARN && token.ClientARN != ARN && !token.IsRoot && !allowPeer {
 		return false
 	} else if arn.GetPartResourceID(ARN, "itea") != strconv.FormatUint(token.ClientID, 10) {
 		return false
