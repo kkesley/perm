@@ -37,10 +37,11 @@ type PasswordPolicyAction struct {
 
 //BasicAction holds basic action
 type BasicAction struct {
-	Read   string `json:"read"`
-	Write  string `json:"write"`
-	Delete string `json:"delete"`
-	Create string `json:"create"`
+	Read     string         `json:"read"`
+	Write    string         `json:"write"`
+	Delete   string         `json:"delete"`
+	Create   string         `json:"create"`
+	Fragment FragmentAction `json:"fragment"`
 }
 
 //Action holds the action variable
@@ -50,6 +51,11 @@ var Action = ActionConstant{
 		Write:  "write",
 		Delete: "delete",
 		Create: "create",
+		Fragment: FragmentAction{
+			Platform: PlatformFragment{
+				PasswordPolicy: "/password-policy",
+			},
+		},
 	},
 	Platform: PlatformAction{
 		User: UserAction{
@@ -65,8 +71,8 @@ var Action = ActionConstant{
 			Create: Permission.Platform.Role + "::" + "create",
 		},
 		PasswordPolicy: PasswordPolicyAction{
-			Read:  Permission.Platform.PasswordPolicy + "::" + "read",
-			Write: Permission.Platform.PasswordPolicy + "::" + "write",
+			Read:  Permission.Platform.User + "::" + "read/password-policy",
+			Write: Permission.Platform.User + "::" + "write/password-policy",
 		},
 	},
 }
